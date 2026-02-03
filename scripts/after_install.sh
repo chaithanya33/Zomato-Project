@@ -1,9 +1,14 @@
 #!/bin/bash
 echo "===== AFTER INSTALL ====="
 
-cd /home/ubuntu/myapp
+APP_DIR=/home/ubuntu/myapp
 
-# Install dependencies as ubuntu user
-sudo -u ubuntu npm install
+# Fix ownership AFTER CodeDeploy copies files
+sudo chown -R ubuntu:ubuntu $APP_DIR
 
-echo "Dependencies installed"
+cd $APP_DIR
+
+# Install dependencies as ubuntu
+npm install
+
+echo "Dependencies installed successfully"
