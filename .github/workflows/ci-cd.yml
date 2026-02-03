@@ -11,44 +11,33 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: us-east-1
 
     steps:
-      # 1️⃣ Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
 
-      # 3️⃣ Install dependencies
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: npm install
 
-      # 4️⃣ Run tests (ignore if none exist)
-      - name: Run tests
-        run: npm test || echo "No tests found"
+    - name: Run tests
+      run: npm test || echo "No tests found"
 
-      # 5️⃣ Make deployment scripts executable
-      - name: Make scripts executable
-        run: chmod +x scripts/*.sh
+    - name: Zip artifact
+      run: zip -r app.zip . -x "node_modules/*" ".git/*"
 
-      # 6️⃣ Zip the app for deployment (exclude node_modules and .git)
-      - name: Zip artifact
-        run: zip -r app.zip . -x "node_modules/*" ".git/*"
+    # 📦 Upload artifact
+    - name: Upload to S3
+      run: aws s3 cp app.zip s3://my-artifact-bucket0001/app.zip --region us-east-1
 
-      # 7️⃣ Upload artifact to S3
-      - name: Upload artifact to S3
-        run: aws s3 cp app.zip s3://my-artifact-bucket0001/app.zip --region $AWS_DEFAULT_REGION
-
-      # 8️⃣ Trigger CodeDeploy deployment
-      - name: Trigger CodeDeploy
-        run: |
-          aws deploy create-deployment \
-            --application-name my-app \
-            --deployment-group-name my-dg \
-            --s3-location bucket=my-artifact-bucket0001,key=app.zip,bundleType=zip \
-            --region $AWS_DEFAULT_REGION
+    # 🚀 Trigger deployment
+    - name: Trigger CodeDeploy
+      run: |
+        aws deploy create-deployment \
+          --application-name my-app \
+          --deployment-group-name my-dg \
+          --s3-location bucket=my-artifact-bucket0001,key=app.zip,bundleType=zip \
+          --region us-east-1
