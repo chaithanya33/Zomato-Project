@@ -24,7 +24,7 @@ jobs:
       run: npm test || echo "No tests found"
 
     - name: Zip artifact
-      run: zip -r app.zip .
+      run: zip -r app.zip . -x "node_modules/*" ".git/*"
 
     # 🔍 DEBUG STEP 1 — Check AWS account/user
     - name: Check AWS identity
