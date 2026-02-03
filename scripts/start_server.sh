@@ -1,17 +1,8 @@
 #!/bin/bash
-set -e
-
-echo "===== START APPLICATION ====="
+echo "===== START SERVER ====="
 
 cd /home/ubuntu/myapp
 
-# Stop old app if running
-pm2 delete myapp || true
+sudo -u ubuntu pm2 start app.js --name myapp || sudo -u ubuntu pm2 restart myapp
 
-# Start new app
-pm2 start server.js --name myapp
-
-pm2 save
-
-echo "Application started successfully"
-
+sudo -u ubuntu pm2 save
