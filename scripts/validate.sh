@@ -1,11 +1,8 @@
 #!/bin/bash
-set -e
-
 echo "===== VALIDATE ====="
 
 sleep 5
 
-curl -f http://localhost:3000
+curl -f http://localhost:3000 || exit 1
 
-echo "App running successfully"
-
+echo "App is running successfully"
