@@ -5,8 +5,6 @@ echo "===== AFTER INSTALL ====="
 
 cd /home/ubuntu/myapp
 
-# Install node dependencies
 npm install
 
-echo "Dependencies installed"
-
+echo "After install completed"
