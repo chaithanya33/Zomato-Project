@@ -1,14 +1,17 @@
 #!/bin/bash
 echo "===== AFTER INSTALL ====="
 
-APP_DIR=/home/ubuntu/myapp
-
-# Fix ownership AFTER CodeDeploy copies files
-sudo chown -R ubuntu:ubuntu $APP_DIR
+APP_DIR=/var/www/zomato-app
 
 cd $APP_DIR
 
-# Install dependencies as ubuntu
-npm install
+# install serve if not present
+npm install -g serve
 
-echo "Dependencies installed successfully"
+# stop old process (safe)
+pkill -f "serve -s build -l 3000" || true
+
+# start app
+nohup serve -s build -l 3000 > app.log 2>&1 &
+
+echo "Application started on port 3000"
