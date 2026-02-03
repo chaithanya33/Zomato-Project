@@ -1,6 +1,3 @@
 #!/bin/bash
-echo "===== BEFORE INSTALL ====="
-
-sudo mkdir -p /home/ubuntu/myapp
-
-echo "Directory ready"
+sudo rm -rf /var/www/zomato-app
+sudo mkdir -p /var/www/zomato-app
