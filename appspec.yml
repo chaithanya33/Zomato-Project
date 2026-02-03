@@ -3,4 +3,21 @@ os: linux
 
 files:
   - source: /
-    destination: /var/www/html
+    destination: /var/www/my-app   # change destination to where you want your app
+
+hooks:
+  BeforeInstall:
+    - location: scripts/stop_server.sh
+      runas: ec2-user
+
+  AfterInstall:
+    - location: scripts/install_dependencies.sh
+      runas: ec2-user
+
+  ApplicationStart:
+    - location: scripts/start_server.sh
+      runas: ec2-user
+
+  ValidateService:
+    - location: scripts/validate.sh
+      runas: ec2-user
