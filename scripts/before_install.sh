@@ -1,16 +1,12 @@
 #!/bin/bash
-set -e
-
 echo "===== BEFORE INSTALL ====="
 
-# Prepare directory
-mkdir -p /home/ubuntu/myapp
-chown -R ubuntu:ubuntu /home/ubuntu/myapp
+APP_DIR=/home/ubuntu/myapp
 
-# Install Node.js & PM2 if not exists
-apt update -y
-apt install -y nodejs npm
+# Create app directory if not exists
+sudo mkdir -p $APP_DIR
 
-npm install -g pm2
+# Give ubuntu user permission
+sudo chown -R ubuntu:ubuntu $APP_DIR
 
-echo "Before install completed"
+echo "Directory prepared & permissions fixed"
