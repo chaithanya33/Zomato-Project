@@ -1,10 +1,9 @@
 #!/bin/bash
-set -e
-
 echo "===== AFTER INSTALL ====="
 
 cd /home/ubuntu/myapp
 
-npm install
+# Install dependencies as ubuntu user
+sudo -u ubuntu npm install
 
-echo "After install completed"
+echo "Dependencies installed"
