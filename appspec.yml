@@ -3,21 +3,35 @@ os: linux
 
 files:
   - source: /
-    destination: /var/www/my-app   # change destination to where you want your app
+    destination: /var/www/my-app   # Destination on EC2
 
 hooks:
   BeforeInstall:
-    - location: scripts/stop_server.sh
-      runas: ec2-user
+    - runas: ec2-user
+      commands:
+        # Stop any existing app process using pm2
+        - pm2 stop my-app || true
 
   AfterInstall:
-    - location: scripts/install_dependencies.sh
-      runas: ec2-user
+    - runas: ec2-user
+      commands:
+        # Navigate to app folder
+        - cd /var/www/my-app
+        # Install Node.js dependencies
+        - npm install
 
   ApplicationStart:
-    - location: scripts/start_server.sh
-      runas: ec2-user
+    - runas: ec2-user
+      commands:
+        - cd /var/www/my-app
+        # Start app using PM2
+        - pm2 start index.js --name my-app
+        # Save PM2 process to restart on reboot
+        - pm2 save
+        - pm2 startup systemd -u ec2-user --hp /home/ec2-user
 
   ValidateService:
-    - location: scripts/validate.sh
-      runas: ec2-user
+    - runas: ec2-user
+      commands:
+        # Health check for ELB
+        - if curl -s http://localhost:3000/ >/dev/null; then echo "Health check passed"; else echo "Health check failed"; exit 1; fi
