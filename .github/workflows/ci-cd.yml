@@ -14,37 +14,37 @@ jobs:
       AWS_DEFAULT_REGION: us-east-1
 
     steps:
-      # Checkout the repository
+      # 1️⃣ Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Setup Node.js
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # Install dependencies
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Run tests (ignore if none exist)
+      # 4️⃣ Run tests (ignore if none exist)
       - name: Run tests
         run: npm test || echo "No tests found"
 
-      # Make all scripts executable
+      # 5️⃣ Make deployment scripts executable
       - name: Make scripts executable
         run: chmod +x scripts/*.sh
 
-      # Zip the app for deployment (exclude node_modules and .git)
+      # 6️⃣ Zip the app for deployment (exclude node_modules and .git)
       - name: Zip artifact
         run: zip -r app.zip . -x "node_modules/*" ".git/*"
 
-      # Upload artifact to S3
+      # 7️⃣ Upload artifact to S3
       - name: Upload artifact to S3
         run: aws s3 cp app.zip s3://my-artifact-bucket0001/app.zip --region $AWS_DEFAULT_REGION
 
-      # Trigger CodeDeploy deployment
+      # 8️⃣ Trigger CodeDeploy deployment
       - name: Trigger CodeDeploy
         run: |
           aws deploy create-deployment \
