@@ -32,6 +32,10 @@ jobs:
       - name: Run tests
         run: npm test || echo "No tests found"
 
+      # Make all scripts executable
+      - name: Make scripts executable
+        run: chmod +x scripts/*.sh
+
       # Zip the app for deployment (exclude node_modules and git)
       - name: Zip artifact
         run: zip -r app.zip . -x "node_modules/*" ".git/*"
