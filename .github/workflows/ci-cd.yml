@@ -32,7 +32,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ap-south-1
+        AWS_DEFAULT_REGION: us-east-1
 
     # 🔍 DEBUG STEP 2 — List S3 buckets
     - name: List S3 buckets
@@ -40,7 +40,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ap-south-1
+        AWS_DEFAULT_REGION: us-east-1
 
     # 📦 Upload artifact
     - name: Upload to S3
@@ -56,7 +56,7 @@ jobs:
           --application-name my-app \
           --deployment-group-name my-dg \
           --s3-location bucket=my-artifact-bucket,key=app.zip,bundleType=zip \
-          --region ap-south-1
+          --region us-east-1
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
