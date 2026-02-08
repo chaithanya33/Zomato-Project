@@ -15,6 +15,41 @@ code deploy status
 
 <img width="1491" height="721" alt="Screenshot 2026-02-04 104957" src="https://github.com/user-attachments/assets/60fe4111-258c-4517-ae46-786d277fe263" />
 
+project workflow for assigned task in internship
+
+My workflow 
+Developer
+   |
+   | git push (master)
+   v
+GitHub Repository
+   |
+   v
+GitHub Actions (CI)
+   - npm install
+   - npm run build
+   - zip artifact
+   |
+   v
+Amazon S3 (Artifact Storage)
+   |
+   v
+AWS CodeDeploy (CD)
+   |
+   v
+EC2 Instance (with CodeDeploy Agent)
+   - /var/www/zomato-app
+   - serve -s build -l 3000
+   |
+   v
+Application Load Balancer
+   - Listener: 80
+   - Target: EC2:3000
+   |
+   v
+End User (Browser)
+
+
 
 
 
