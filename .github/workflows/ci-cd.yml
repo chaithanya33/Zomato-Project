@@ -1,4 +1,4 @@
-name: CI/CD Agent
+name: CI
 
 on:
   push:
