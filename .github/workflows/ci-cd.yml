@@ -1,4 +1,4 @@
-name: CI-CD Zomato App
+name: CI/CD Agent
 
 on:
   push:
